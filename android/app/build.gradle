@@ -24,6 +24,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.example.stock_reconcile"
+    ndkVersion = "25.1.8937393"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 

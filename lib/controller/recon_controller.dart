@@ -23,14 +23,14 @@ class ReconController extends GetxController {
   var reconList = <ReconModel>[].obs;
   var scanned_text = ''.obs;
   var message = ''.obs;
-  void updatePhysicalQty(String warehouse, String itemCode, double stockQty,
+  updatePhysicalQty(String warehouse, String itemCode, double stockQty,
       double physicalQty, String stock_analysis) async {
     // Call your service here
     var responseMessage = await ReconService().updatePhysicalQty(
         warehouse, itemCode, stockQty, physicalQty, stock_analysis);
-    message.value = responseMessage;
-    isSubmitClicked.value = true;
-    Get.to(ReconEntry());
+    // isSubmitClicked.value = true;
+    return responseMessage;
+
     // isSubmitted.value = true;
   }
 

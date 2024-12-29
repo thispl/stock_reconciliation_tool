@@ -12,8 +12,13 @@ class ReconEntry extends StatelessWidget {
   final ReconController recon = Get.put(ReconController());
   final TextEditingController warehouse = TextEditingController();
   final TextEditingController itemCode = TextEditingController();
-  final TextEditingController physicalQty = TextEditingController();
-  final TextEditingController reenterQty = TextEditingController();
+  final FocusNode warehouseFocus = FocusNode();
+  final FocusNode itemCodeFocus = FocusNode();
+  final FocusNode physicalQtyFocus = FocusNode();
+  final FocusNode reenterQtyFocus = FocusNode();
+
+  TextEditingController physicalQty = TextEditingController();
+  TextEditingController reenterQty = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -70,10 +75,13 @@ class ReconEntry extends StatelessWidget {
                           readOnly: true, // Set to true to prevent editing
                         ),
                         TextFormField(
+                          focusNode: warehouseFocus,
                           onEditingComplete: () {
                             recon.scanBarcode('warehouse', warehouse.text);
                             recon.warehouse.value = warehouse.text;
                             recon.update();
+                            FocusScope.of(context).requestFocus(
+                                itemCodeFocus); // Move focus to itemCode
                           },
                           controller: warehouse,
                           decoration: InputDecoration(
@@ -113,10 +121,13 @@ class ReconEntry extends StatelessWidget {
                         if (recon.warehouse.value != '' &&
                             recon.is_valid_warehouse.value)
                           TextFormField(
+                            focusNode: itemCodeFocus,
                             onEditingComplete: () {
                               recon.scanBarcode('item', itemCode.text);
                               recon.item_code.value = itemCode.text;
                               recon.update();
+                              FocusScope.of(context).requestFocus(
+                                  physicalQtyFocus); // Move focus to physicalQty
                             },
                             controller: itemCode,
                             decoration: InputDecoration(
@@ -239,7 +250,15 @@ class ReconEntry extends StatelessWidget {
                                         recon.stockQty.value,
                                         physicalQtyValue,
                                         reconModel.name);
-                                    Get.to(ReconEntry());
+                                    Get.snackbar('Success', 'Updated',
+                                        snackPosition: SnackPosition.BOTTOM);
+                                    recon.item_code.value = '';
+                                    recon.is_valid_item.value = false;
+                                    itemCode.text = '';
+                                    recon.stockQty.value = 0;
+                                    physicalQty.text = '';
+                                    reenterQty.text = '';
+                                    recon.update();
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
@@ -256,7 +275,7 @@ class ReconEntry extends StatelessWidget {
                             }),
                             ElevatedButton(
                               onPressed: () {
-                                Get.to(() => const HomeView());
+                                // Get.to(() => const HomeView());
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color.fromARGB(255, 32,
@@ -271,14 +290,6 @@ class ReconEntry extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 16.0),
-                        // Display the message below the button
-                        Obx(() => Text(
-                              recon.message.value,
-                              style: const TextStyle(
-                                color: Color.fromARGB(255, 56, 131, 59),
-                              ),
-                            )),
                       ],
                     ),
                   ),
