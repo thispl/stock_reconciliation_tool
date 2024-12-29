@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:stock_reconcile/controller/recon_controller.dart';
 
 import 'package:stock_reconcile/utils/authentication_manager.dart';
+import 'package:stock_reconcile/views/login/login_view.dart';
 import 'package:stock_reconcile/views/recon_entry.dart';
 // Ensure you import the model
 
@@ -36,6 +37,7 @@ class _HomeViewState extends State<HomeView> {
           IconButton(
             onPressed: () {
               _authManager.logOut();
+              Get.offAll(() => const LoginView());
             },
             icon: const Icon(Icons.logout_rounded),
           ),

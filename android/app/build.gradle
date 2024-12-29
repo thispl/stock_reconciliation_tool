@@ -55,7 +55,7 @@ android {
         release {
             keyAlias 'upload'
             keyPassword '1234@Teampro'
-            storeFile file('/home/teampro/Downloads/stock_reconciliation_tool-master/android/upload-keystore.jks')
+            storeFile file('C:/TeamPRO/stock_reconciliation_tool-master_new/stock_reconciliation_tool-master/android/upload-keystore.jks')
             storePassword '1234@Teampro'
             // keyAlias keystoreProperties['keyAlias']
             // keyPassword keystoreProperties['keyPassword']

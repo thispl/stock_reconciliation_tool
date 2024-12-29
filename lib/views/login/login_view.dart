@@ -19,31 +19,37 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Norden Communication Middle East FZE',style: TextStyle(
-            fontSize: 17, // Set the text size here
-          ),),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: const Center(
+          child: Text(
+            'Norden Communication Middle East FZE',
+            style: TextStyle(
+              fontSize: 17, // Set the text size here
+            ),
+          ),
+        ),
         backgroundColor: Color.fromARGB(255, 189, 15, 15),
         foregroundColor: Colors.white,
-        ),
+      ),
       body: SingleChildScrollView(
         // padding: const EdgeInsets.symmetric(horizontal: 12.0),
         // padding: const EdgeInsets.only(top: 10.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          
           children: [
             const SizedBox(
-          height: 10,
-        ),
+              height: 10,
+            ),
             Center(
-              
               child: Container(
                 width: 200,
                 height: 150,
                 child: Image.asset('assets/images/main.png'),
               ),
             ),
-            const SizedBox(height: 20), // Add some space between the image and the form
+            const SizedBox(
+                height: 20), // Add some space between the image and the form
             Center(
               child: Container(
                 padding: const EdgeInsets.all(20.0),
@@ -68,6 +74,7 @@ class _LoginViewState extends State<LoginView> {
       ),
     );
   }
+
   Form loginForm() {
     return Form(
       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -76,17 +83,16 @@ class _LoginViewState extends State<LoginView> {
         // const SizedBox(
         //   height: 60,
         // ),
-        // Padding( 
-              
-        Center( 
-          child: Text('Login',
-          style:TextStyle(fontSize: 24)), 
-        ), 
-            // ),
+        // Padding(
+
+        Center(
+          child: Text('Login', style: TextStyle(fontSize: 24)),
+        ),
+        // ),
         const SizedBox(
           height: 50,
         ),
-        
+
         TextFormField(
           controller: emailCtr,
           validator: (value) {
@@ -119,14 +125,14 @@ class _LoginViewState extends State<LoginView> {
             }
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color.fromARGB(255, 32, 139, 226), // Button background color
+            backgroundColor: const Color.fromARGB(
+                255, 32, 139, 226), // Button background color
             foregroundColor: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.zero, // Makes the button rectangular
             ), // Button text (foreground) color
           ),
           child: const Text('Login'),
-          
         ),
       ]),
     );

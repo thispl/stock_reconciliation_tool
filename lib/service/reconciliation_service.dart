@@ -18,7 +18,6 @@ class ReconService extends GetConnect with CacheManager {
       'Accept': 'application/json',
       'Cookie': getToken().toString()
     });
-    print(response.body);
     if (response.statusCode == HttpStatus.ok) {
       var dataList = response.body['data'];
       return reconModelFromJson(json.encode(dataList));
@@ -81,8 +80,8 @@ class ReconService extends GetConnect with CacheManager {
     }
   }
 
-  Future<String> updatePhysicalQty(
-      String warehouse, String itemCode, double stockQty, double physicalQty, String stock_analysis) async {
+  Future<String> updatePhysicalQty(String warehouse, String itemCode,
+      double stockQty, double physicalQty, String stock_analysis) async {
     String url = '${Globals.url}/api/method/norden.api.update_stock_qty';
 
     var body = json.encode({
@@ -90,7 +89,7 @@ class ReconService extends GetConnect with CacheManager {
       "item_code": itemCode,
       'stockQty': stockQty,
       "physical_qty": physicalQty,
-      "stock_analysis":stock_analysis
+      "stock_analysis": stock_analysis
     });
     var response = await post(url, body, headers: {
       'Accept': 'application/json',
@@ -114,32 +113,33 @@ class ReconService extends GetConnect with CacheManager {
     return 'Updated';
   }
 
-  Future getStockQty(String itemCode, String warehouse) async {
-    String url =
-        '${Globals.url}/api/resource/Stock Ledger Entry?filters=[["item_code","=","$itemCode"],["warehouse","=","Main Stores - NCME"],["rack","=","$warehouse"]]&fields=["qty_after_transaction"]&limit=1&order_by=creation DESC';
+  // Future getStockQty(String itemCode, String warehouse) async {
+  //   String url =
+  //       '${Globals.url}/api/resource/Stock Ledger Entry?filters=[["item_code","=","$itemCode"],["warehouse","=","Main Stores - NCME"],["rack","=","$warehouse"]]&fields=["qty_after_transaction"]&limit=1&order_by=creation DESC';
 
-    var response = await get(url, headers: {
-      'Accept': 'application/json',
-      'Cookie': getToken().toString()
-    });
-    if (response.statusCode == HttpStatus.ok) {
-      var dataList = response.body['data'];
-      if (dataList.length > 0) {
-        return dataList[0]['qty_after_transaction'];
-      } else {
-        return 0;
-      }
-    } else {
-      if (response.statusCode == HttpStatus.forbidden) {
-        if (response.body['session_expired'] == 1) {
-          _authManager.logOut();
-        }
-      } else {
-        //show error message
-        Get.snackbar('Error', response.statusCode.toString());
-      }
-    }
-  }
+  //   var response = await get(url, headers: {
+  //     'Accept': 'application/json',
+  //     'Cookie': getToken().toString()
+  //   });
+  //   if (response.statusCode == HttpStatus.ok) {
+  //     var dataList = response.body['data'];
+  //     if (dataList.length > 0) {
+  //       return dataList[0]['qty_after_transaction'];
+  //     } else {
+  //       return 0;
+  //     }
+  //   } else {
+  //     if (response.statusCode == HttpStatus.forbidden) {
+  //       if (response.body['session_expired'] == 1) {
+  //         _authManager.logOut();
+  //       }
+  //     } else {
+  //       //show error message
+  //       Get.snackbar('Error', response.statusCode.toString());
+  //     }
+  //   }
+  // }
+
   Future getitemname(String itemCode, String warehouse) async {
     String url =
         '${Globals.url}/api/resource/Item?filters=[["item_code","=","$itemCode"]]&fields=["item_name"]';

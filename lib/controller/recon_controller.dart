@@ -37,8 +37,6 @@ class ReconController extends GetxController {
   @override
   void onInit() {
     fetchRecon();
-    // is_valid_item.value = false;
-    // is_valid_warehouse.value = false;
     super.onInit();
   }
 
@@ -64,14 +62,14 @@ class ReconController extends GetxController {
         } else {
           is_valid_warehouse(false);
         }
-        print(isValid);
       } else if (scantype == 'item') {
         // item_code.value = result.rawContent;
         var isValid = await reconService.checkItem(scannedData);
         if (isValid == 1) {
           is_valid_item(true);
-          stockQty.value =
-              await reconService.getStockQty(item_code.value, warehouse.value);
+          // stockQty.value =
+          //     await reconService.getStockQty(item_code.value, warehouse.value);
+
           itemName.value =
               await reconService.getitemname(item_code.value, warehouse.value);
         } else {

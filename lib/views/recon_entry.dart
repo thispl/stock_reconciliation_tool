@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:stock_reconcile/controller/login_controller.dart';
 import 'package:stock_reconcile/controller/recon_controller.dart';
-import 'package:stock_reconcile/login/view/loginpage.dart';
 import 'package:stock_reconcile/model/recon_list_model.dart';
 import 'package:stock_reconcile/utils/authentication_manager.dart';
 import 'package:stock_reconcile/views/home_view.dart';
@@ -30,13 +28,23 @@ class ReconEntry extends StatelessWidget {
           'Norden Communication Middle East FZE',
           style: TextStyle(fontSize: 17),
         ),
+        leading: IconButton(
+          onPressed: () {
+            Get.delete<ReconController>();
+            Get.off(
+              () => const HomeView(),
+            );
+          },
+          icon: const Icon(Icons.arrow_back),
+        ),
+        automaticallyImplyLeading: false,
         backgroundColor: const Color.fromARGB(255, 189, 15, 15),
         foregroundColor: Colors.white,
         actions: [
           IconButton(
             onPressed: () {
               _authManager.logOut();
-              Get.to(() => const LoginView());
+              Get.offAll(() => const LoginView());
             },
             icon: const Icon(Icons.logout_rounded),
           ),
@@ -68,13 +76,6 @@ class ReconEntry extends StatelessWidget {
                               true, // Set to  // Set to true to prevent editing
                         ),
                         TextFormField(
-                          controller:
-                              TextEditingController(text: "Main Stores - NCME"),
-                          decoration:
-                              const InputDecoration(labelText: 'Warehouse'),
-                          readOnly: true, // Set to true to prevent editing
-                        ),
-                        TextFormField(
                           focusNode: warehouseFocus,
                           onEditingComplete: () {
                             recon.scanBarcode('warehouse', warehouse.text);
@@ -85,7 +86,7 @@ class ReconEntry extends StatelessWidget {
                           },
                           controller: warehouse,
                           decoration: InputDecoration(
-                            labelText: 'Scan Rack',
+                            labelText: 'Rack',
                             suffixIcon: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -118,47 +119,45 @@ class ReconEntry extends StatelessWidget {
                             ),
                           ),
                         ),
-                        if (recon.warehouse.value != '' &&
-                            recon.is_valid_warehouse.value)
-                          TextFormField(
-                            focusNode: itemCodeFocus,
-                            onEditingComplete: () {
-                              recon.scanBarcode('item', itemCode.text);
-                              recon.item_code.value = itemCode.text;
-                              recon.update();
-                              FocusScope.of(context).requestFocus(
-                                  physicalQtyFocus); // Move focus to physicalQty
-                            },
-                            controller: itemCode,
-                            decoration: InputDecoration(
-                              labelText: 'Scan Item',
-                              suffixIcon: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  if (recon.item_code.value != '')
-                                    if (recon.is_valid_item.value)
-                                      const Icon(
-                                        Icons.check_outlined,
-                                        color: Colors.green,
-                                      )
-                                    else
-                                      const Icon(
-                                        Icons.cancel_outlined,
-                                        color: Colors.red,
-                                      ),
-                                  IconButton(
-                                    icon: const Icon(Icons.clear),
-                                    onPressed: () {
-                                      itemCode.clear();
-                                      recon.item_code.value = '';
-                                      recon.is_valid_item.value = false;
-                                      recon.update();
-                                    },
-                                  ),
-                                ],
-                              ),
+                        TextFormField(
+                          focusNode: itemCodeFocus,
+                          onEditingComplete: () {
+                            recon.scanBarcode('item', itemCode.text);
+                            recon.item_code.value = itemCode.text;
+                            recon.update();
+                            FocusScope.of(context).requestFocus(
+                                physicalQtyFocus); // Move focus to physicalQty
+                          },
+                          controller: itemCode,
+                          decoration: InputDecoration(
+                            labelText: 'Item',
+                            suffixIcon: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                if (recon.item_code.value != '')
+                                  if (recon.is_valid_item.value)
+                                    const Icon(
+                                      Icons.check_outlined,
+                                      color: Colors.green,
+                                    )
+                                  else
+                                    const Icon(
+                                      Icons.cancel_outlined,
+                                      color: Colors.red,
+                                    ),
+                                IconButton(
+                                  icon: const Icon(Icons.clear),
+                                  onPressed: () {
+                                    itemCode.clear();
+                                    recon.item_code.value = '';
+                                    recon.is_valid_item.value = false;
+                                    recon.update();
+                                  },
+                                ),
+                              ],
                             ),
                           ),
+                        ),
                       ],
                     )),
               ),
@@ -275,7 +274,7 @@ class ReconEntry extends StatelessWidget {
                             }),
                             ElevatedButton(
                               onPressed: () {
-                                // Get.to(() => const HomeView());
+                                Get.to(() => const HomeView());
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color.fromARGB(255, 32,
