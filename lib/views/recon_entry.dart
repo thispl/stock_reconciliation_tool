@@ -61,6 +61,21 @@ class ReconEntry extends StatelessWidget {
                 child: Obx(() => Column(
                       children: <Widget>[
                         TextFormField(
+                          controller: TextEditingController(
+                              text: recon.is_device_supported.string),
+                          decoration: const InputDecoration(
+                            border:
+                                OutlineInputBorder(), // Adds a border around the field
+                          ),
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold, // Makes the text bold
+                            fontSize: 16.0, // Adjust the font size if needed
+                          ), // Aligns the text to the center
+                          readOnly:
+                              true, // Set to  // Set to true to prevent editing
+                        ),
+                        TextFormField(
                           controller:
                               TextEditingController(text: reconModel.name),
                           decoration: const InputDecoration(

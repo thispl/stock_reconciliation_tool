@@ -2,6 +2,7 @@ import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:honeywell_scanner/honeywell_scanner.dart';
 import 'package:stock_reconcile/model/recon_list_model.dart';
 import 'package:stock_reconcile/service/reconciliation_service.dart';
 import 'package:stock_reconcile/views/home_view.dart';
@@ -16,6 +17,7 @@ class ReconController extends GetxController {
   var stockQty = 0.0.obs;
   var itemName = ''.obs;
   var is_valid_warehouse = false.obs;
+  var is_device_supported = false.obs;
   var is_valid_item = false.obs;
   var item_code = ''.obs;
   var isLoading = true.obs;
@@ -37,6 +39,7 @@ class ReconController extends GetxController {
   @override
   void onInit() {
     fetchRecon();
+    checkDeviceSupport();
     super.onInit();
   }
 
@@ -48,6 +51,14 @@ class ReconController extends GetxController {
       }
     } finally {
       isLoading(false);
+    }
+  }
+
+  checkDeviceSupport() async {
+    HoneywellScanner honeywellScanner = HoneywellScanner();
+    var isDeviceSupported = await honeywellScanner.isSupported();
+    if (isDeviceSupported) {
+      is_device_supported(true);
     }
   }
 
