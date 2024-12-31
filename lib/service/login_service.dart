@@ -15,6 +15,7 @@ class LoginService extends GetConnect {
       loginUrl,
       model.toJson(),
     );
+    print(response.body);
     if (response.statusCode == HttpStatus.ok) {
       response.headers?.forEach((key, value) {
         if (key == 'set-cookie') {

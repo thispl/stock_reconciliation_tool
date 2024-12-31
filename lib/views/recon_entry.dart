@@ -62,7 +62,8 @@ class ReconEntry extends StatelessWidget {
                       children: <Widget>[
                         TextFormField(
                           controller: TextEditingController(
-                              text: recon.is_device_supported.string),
+                              text:
+                                  'Device Supported : ${recon.is_device_supported.string}'),
                           decoration: const InputDecoration(
                             border:
                                 OutlineInputBorder(), // Adds a border around the field
@@ -92,7 +93,7 @@ class ReconEntry extends StatelessWidget {
                         ),
                         TextFormField(
                           focusNode: warehouseFocus,
-                          onEditingComplete: () {
+                          onFieldSubmitted: (text) {
                             recon.scanBarcode('warehouse', warehouse.text);
                             recon.warehouse.value = warehouse.text;
                             recon.update();
@@ -136,7 +137,7 @@ class ReconEntry extends StatelessWidget {
                         ),
                         TextFormField(
                           focusNode: itemCodeFocus,
-                          onEditingComplete: () {
+                          onFieldSubmitted: (text) {
                             recon.scanBarcode('item', itemCode.text);
                             recon.item_code.value = itemCode.text;
                             recon.update();
@@ -197,31 +198,22 @@ class ReconEntry extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Visibility(
-                          visible: false,
-                          child: ListTile(
-                            leading: const Text('Stock Qty'),
-                            title: TextFormField(
-                              readOnly: true,
-                              controller: TextEditingController(
-                                text: recon.stockQty.value.toString(),
-                              ),
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                              ),
-                            ),
-                          ),
-                        ),
                         ListTile(
                           leading: const Text('Qty'),
                           title: TextFormField(
+                            focusNode: physicalQtyFocus,
                             controller: physicalQty,
                             keyboardType: TextInputType.number,
+                            onFieldSubmitted: (text) {
+                              FocusScope.of(context).requestFocus(
+                                  reenterQtyFocus); // Move focus to reenterQtyFocus
+                            },
                           ),
                         ),
                         ListTile(
                           leading: const Text('Re-Enter Qty'),
                           title: TextFormField(
+                            focusNode: reenterQtyFocus,
                             controller: reenterQty,
                             keyboardType: TextInputType.number,
                           ),

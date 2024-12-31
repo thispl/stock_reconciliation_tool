@@ -18,6 +18,9 @@ class ReconController extends GetxController {
   var itemName = ''.obs;
   var is_valid_warehouse = false.obs;
   var is_device_supported = false.obs;
+  ScannedData? scannedData;
+  String? errorMessage;
+  bool scannerEnabled = false;
   var is_valid_item = false.obs;
   var item_code = ''.obs;
   var isLoading = true.obs;
@@ -64,6 +67,7 @@ class ReconController extends GetxController {
 
   void scanBarcode(String scantype, String scannedData) async {
     try {
+      // HoneywellScanner honeywellScanner = HoneywellScanner();
       // var result = await BarcodeScanner.scan();
       if (scantype == 'warehouse') {
         // warehouse.value = result.rawContent;
